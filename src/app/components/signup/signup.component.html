@@ -1,0 +1,47 @@
+<div class="container">
+  <h3>Sign-up</h3>
+  <form [formGroup]="homeform" (ngSubmit)="onSubmit(homeform)">
+    <label for="name">Name</label>
+    <input type="name" name="name" id="name" required formControlName="name" />
+
+    <label for="gender">Gender</label>
+    <div class="gender">
+      Male
+      <input
+        type="radio"
+        name="gender"
+        id="gender"
+        required
+        formControlName="gender"
+        value="male"
+      />
+      Female
+      <input
+        type="radio"
+        name="gender"
+        id="gender"
+        required
+        formControlName="gender"
+        value="female"
+      />
+    </div>
+
+    <label for="email">Email</label>
+    <input
+      type="email"
+      name="email"
+      id="email"
+      required
+      formControlName="email"
+    />
+    <label for="token">Token</label>
+    <input
+      type="token"
+      name="token"
+      id="token"
+      required
+      formControlName="token"
+    />
+    <button type="submit" [disabled]="!homeform.valid">Sign-up</button>
+  </form>
+</div>

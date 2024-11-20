@@ -1,0 +1,14 @@
+<div class="container">
+  <h3>Login</h3>
+  <form [formGroup]="homeform" (ngSubmit)="onLogin()">
+    <label for="token">Token</label>
+    <input
+      type="token"
+      name="token"
+      id="token"
+      required
+      formControlName="token"
+    />
+    <button type="submit" [disabled]="!homeform.valid">Login</button>
+  </form>
+</div>
