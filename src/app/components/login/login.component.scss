@@ -1,29 +1,30 @@
-.container {
+.login-container {
   width: 20vw;
-  margin: 30px;
-  padding: 20px;
-  text-align: center;
-  border: 1px solid grey;
-  border-radius: 5px;
+  height: fit-content;
+  border: 1px solid black;
+  border-radius: 10px;
+
+  position: absolute;
+  top: 40%;
+  margin-top: -12vh;
+  left: 50%;
+  margin-left: -12vw;
+
+  padding: 30px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h1 {
+    margin-bottom: 40px;
+  }
 
   form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
-  }
-
-  h4 {
-    margin: 0 auto;
-  }
-
-  #token {
-    margin: 10px 0;
-    width: 100%;
-  }
-
-  button {
-    width: 30%;
-    margin: 0 auto;
+    justify-content: center;
   }
 }

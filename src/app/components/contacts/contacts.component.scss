@@ -1,0 +1,28 @@
+table {
+  width: 80%;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+
+  button {
+    margin: 0 10px;
+  }
+}
+
+.active {
+  width: 10px;
+  height: 10px;
+  background-color: green;
+  border-radius: 100%;
+}
+
+.inactive {
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 100%;
+}

@@ -1,14 +1,24 @@
-<div class="container">
-  <h3>Login</h3>
-  <form [formGroup]="homeform" (ngSubmit)="onLogin()">
-    <label for="token">Token</label>
-    <input
-      type="token"
-      name="token"
-      id="token"
-      required
-      formControlName="token"
-    />
-    <button type="submit" [disabled]="!homeform.valid">Login</button>
+<div class="login-container">
+  <h1>Login</h1>
+  <form class="example-form" [formGroup]="loginFormControl">
+    <mat-form-field class="example-full-width">
+      <mat-label>Token</mat-label>
+      <input
+        class="token-input"
+        type="token"
+        matInput
+        formControlName="tokenControl"
+      />
+      @if (loginFormControl.hasError('required')) {
+      <mat-error>Email is <strong>required</strong></mat-error>
+      }
+    </mat-form-field>
+    <button
+      mat-raised-button
+      type="submit"
+      [disabled]="!loginFormControl.valid"
+    >
+      Login
+    </button>
   </form>
 </div>

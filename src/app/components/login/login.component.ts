@@ -8,21 +8,21 @@ import { Auth } from '../../../models/auth';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
-  homeform!: FormGroup;
+  loginFormControl!: FormGroup;
 
   constructor() {}
 
   ngOnInit(): void {
-    this.homeform = new FormGroup({
-      token: new FormControl(null, Validators.required),
+    this.loginFormControl = new FormGroup({
+      tokenControl: new FormControl(null, Validators.required),
     });
   }
 
   onLogin() {
-    if (this.homeform.valid) {
+    if (this.loginFormControl.valid) {
       let authData: Auth = {
         dateMill: new Date().getTime() + 60 * 60 * 1000,
-        token: this.homeform.get('token')?.value,
+        token: this.loginFormControl.get('token')?.value,
       };
       console.log(authData);
     }
