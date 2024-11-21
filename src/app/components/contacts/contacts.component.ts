@@ -17,15 +17,19 @@ export class ContactsComponent {
 
   ngOnInit(): void {
     this.seeUsers();
-    console.log(this.users);
   }
 
   seeUsers() {
-    this.authService
-      .getUserList(this.currentPage, this.perPage)
-      .subscribe((data: any) => {
-        this.users = data;
-      });
+    const authData = JSON.parse(localStorage.getItem('data') || '{}');
+    const token = authData.token;
+
+    if (token) {
+      this.authService
+        .getUserList(this.currentPage, this.perPage)
+        .subscribe((data: any) => {
+          this.users = data;
+        });
+    }
   }
 
   firstPage(): void {

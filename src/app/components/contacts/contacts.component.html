@@ -32,7 +32,13 @@
   <!-- Gender Column -->
   <ng-container matColumnDef="gender">
     <th mat-header-cell *matHeaderCellDef>Gender</th>
-    <td mat-cell *matCellDef="let element">{{ element.gender }}</td>
+    <td mat-cell *matCellDef="let element">
+      @if (element.gender === 'male') {
+      <mat-icon class="male">male</mat-icon>
+      } @if (element.gender === 'female') {
+      <mat-icon class="female">female</mat-icon>
+      }
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

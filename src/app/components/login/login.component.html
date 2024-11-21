@@ -16,6 +16,7 @@
     <button
       mat-raised-button
       type="submit"
+      (click)="onLogin()"
       [disabled]="!loginFormControl.valid"
     >
       Login
