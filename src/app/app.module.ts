@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -41,6 +42,7 @@ import { ContactsComponent } from './components/contacts/contacts.component';
     MatInputModule,
     MatRadioModule,
     MatTableModule,
+    MatPaginatorModule,
   ],
   providers: [
     provideClientHydration(),
