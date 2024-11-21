@@ -26,4 +26,8 @@ export class AuthService {
   getUserList(page: number, perPage: number) {
     return this.http.get(`${this.url}/users?page=${page}&per_page=${perPage}`);
   }
+
+  getPostList(page: number, perPage: number) {
+    return this.http.get(`${this.url}/posts?page=${page}&per_page=${perPage}`);
+  }
 }

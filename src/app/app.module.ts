@@ -18,6 +18,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatSelectModule } from '@angular/material/select';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -48,6 +52,10 @@ import { authInterceptor } from './interceptors/auth.interceptor';
     MatRadioModule,
     MatTableModule,
     MatPaginatorModule,
+    MatGridListModule,
+    MatDividerModule,
+    MatBadgeModule,
+    MatSelectModule,
   ],
   providers: [
     provideClientHydration(),

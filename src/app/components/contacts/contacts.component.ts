@@ -8,7 +8,14 @@ import { User } from '../../../models/user';
   styleUrl: './contacts.component.scss',
 })
 export class ContactsComponent {
-  displayedColumns: string[] = ['status', 'id', 'name', 'email', 'gender'];
+  displayedColumns: string[] = [
+    'status',
+    'id',
+    'name',
+    'email',
+    'gender',
+    'delete',
+  ];
   users!: User[];
   currentPage: number = 1;
   perPage: number = 12;
@@ -21,7 +28,8 @@ export class ContactsComponent {
 
   seeUsers() {
     const authData = JSON.parse(localStorage.getItem('data') || '{}');
-    const token = authData.token;
+    const token =
+      '9a88a3d1d56406dfd40f191c73781955948c5b1870d05b10681522b11d637ef3';
 
     if (token) {
       this.authService
@@ -30,6 +38,22 @@ export class ContactsComponent {
           this.users = data;
         });
     }
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    console.log(filterValue);
+  }
+
+  onDeleteUser(id: number) {
+    console.log(this.users);
+    let deletedUser = this.users.find((element) => (element.id = id));
+  }
+
+  onChange(data: any) {
+    console.log(data.value);
+    this.perPage = data.value;
+    this.seeUsers();
   }
 
   firstPage(): void {
