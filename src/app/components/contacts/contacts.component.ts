@@ -1,8 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { User } from '../../../models/user';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogContentComponent } from './dialog-content/dialog-content.component';
+import { Router } from '@angular/router';
+import { DialogUserComponent } from './dialog-user/dialog-user.component';
+import { UserServiceService } from '../../service/user-service.service';
 
 @Component({
   selector: 'app-contacts',
@@ -11,6 +14,7 @@ import { DialogContentComponent } from './dialog-content/dialog-content.componen
 })
 export class ContactsComponent {
   displayedColumns: string[] = [
+    'info',
     'status',
     'id',
     'name',
@@ -22,9 +26,14 @@ export class ContactsComponent {
   currentPage: number = 1;
   perPage: number = 12;
   isLoggedIn: boolean = false;
+  detailedUser!: User;
   readonly dialog = inject(MatDialog);
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private userService: UserServiceService
+  ) {}
 
   ngOnInit(): void {
     this.seeUsers();
@@ -58,6 +67,16 @@ export class ContactsComponent {
 
   openDialog() {
     const dialogRef = this.dialog.open(DialogContentComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openUserDialog(user: User) {
+    const dialogRef = this.dialog.open(DialogUserComponent);
+
+    this.userService.detailedUser = user;
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);

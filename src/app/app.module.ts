@@ -32,6 +32,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { ContactsComponent } from './components/contacts/contacts.component';
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { DialogContentComponent } from './components/contacts/dialog-content/dialog-content.component';
+import { DialogUserComponent } from './components/contacts/dialog-user/dialog-user.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { DialogContentComponent } from './components/contacts/dialog-content/dia
     LoginComponent,
     ContactsComponent,
     DialogContentComponent,
+    DialogUserComponent,
   ],
   imports: [
     BrowserModule,

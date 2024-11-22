@@ -3,6 +3,29 @@
   height: 100vh;
   background: linear-gradient(#8aebeb, #330867);
 
+  .title {
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h1 {
+      font-size: 50px;
+      font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+        sans-serif;
+      text-shadow: -3px -3px rgba(255, 255, 255, 0.5);
+    }
+
+    p {
+      font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+        sans-serif;
+      width: 500px;
+      text-align: center;
+      font-size: 17px;
+    }
+  }
+
   .login-container {
     width: 20vw;
     height: fit-content;
@@ -23,7 +46,14 @@
     align-items: center;
 
     h1 {
-      margin-bottom: 40px;
+      font-size: 35px;
+      margin-bottom: 10px;
+    }
+
+    .first-authentication {
+      text-align: center;
+      font-size: 13px;
+      margin-bottom: 30px;
     }
 
     form {

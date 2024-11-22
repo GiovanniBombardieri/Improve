@@ -1,0 +1,43 @@
+<div class="title">
+  @if (user.status === 'active') {
+  <div class="active"></div>
+  } @if (user.status === 'inactive') {
+  <div class="inactive"></div>
+  }
+  <h1 mat-dialog-title>{{ user.name }}</h1>
+</div>
+<mat-dialog-content>
+  <div class="detail">
+    <h3>Email:</h3>
+    <p>{{ user.email }}</p>
+  </div>
+  <div class="detail">
+    <h3>User ID:</h3>
+    <p>{{ user.id }}</p>
+  </div>
+  <div class="detail">
+    <h3>Gender:</h3>
+    <p>{{ user.gender }}</p>
+  </div>
+  <div class="detail">
+    <h3>Number of post:</h3>
+    <p>{{ posts.length }}</p>
+  </div>
+
+  @if (posts.length > 0) { @for (post of posts; track $index) {
+  <div class="post-container">
+    <h2>{{ post.title }}</h2>
+    <mat-divider></mat-divider>
+    <p>{{ post.body }}</p>
+    <button mat-button (click)="seeComments(post.id)">See comments</button>
+    @if (revealComments) {
+    <button mat-button>Hide comments</button>
+    @for (comment of comments; track $index) {
+    <p>{{ comment.body }}</p>
+    } }
+  </div>
+  } }
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Back</button>
+</mat-dialog-actions>

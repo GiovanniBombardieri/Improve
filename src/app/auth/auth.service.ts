@@ -51,4 +51,18 @@ export class AuthService {
 
     return this.http.post(`${this.url}/users`, user, { headers });
   }
+
+  getUserPosts(token: string, id: number | undefined) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', `Bearer ${token}`);
+
+    return this.http.get(`${this.url}/users/${id}/posts`, { headers });
+  }
+
+  getPostComment(token: string, id: number | undefined) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', `Bearer ${token}`);
+
+    return this.http.get(`${this.url}/posts/${id}/comments`, { headers });
+  }
 }

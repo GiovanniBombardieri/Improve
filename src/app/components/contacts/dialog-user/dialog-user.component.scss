@@ -1,0 +1,49 @@
+.title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  h1 {
+    margin-bottom: 0px;
+  }
+
+  .active {
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    background-color: green;
+    margin-left: 20px;
+    margin-top: 5px;
+  }
+
+  .inactive {
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    background-color: red;
+    margin-left: 20px;
+    margin-top: 5px;
+  }
+}
+
+.detail {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+
+  h3 {
+    margin-right: 10px;
+    font-weight: bold;
+  }
+}
+
+.post-container {
+  border: 1px solid rgb(0, 0, 0, 0.4);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  padding: 20px;
+
+  p {
+    margin-top: 10px;
+  }
+}

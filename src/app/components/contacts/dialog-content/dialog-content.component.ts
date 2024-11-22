@@ -40,12 +40,6 @@ export class DialogContentComponent implements OnInit {
       this.authService.createUser(storageToken, newUser).subscribe((data) => {
         console.log(data);
       });
-      this.authService.getUserList(
-        this.currentPage,
-        this.perPage,
-        storageToken
-      );
-      window.location.reload();
     }
   }
 }
