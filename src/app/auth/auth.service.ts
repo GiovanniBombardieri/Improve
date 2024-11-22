@@ -30,4 +30,8 @@ export class AuthService {
   getPostList(page: number, perPage: number) {
     return this.http.get(`${this.url}/posts?page=${page}&per_page=${perPage}`);
   }
+
+  deleteUser(id: number | undefined) {
+    return this.http.delete(`${this.url}/users/${id}`);
+  }
 }

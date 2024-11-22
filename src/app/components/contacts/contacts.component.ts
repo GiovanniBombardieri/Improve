@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { User } from '../../../models/user';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-contacts',
@@ -40,17 +41,7 @@ export class ContactsComponent {
     }
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    console.log(filterValue);
-  }
-
-  onDeleteUser(id: number) {
-    console.log(this.users);
-    let deletedUser = this.users.find((element) => (element.id = id));
-  }
-
-  onChange(data: any) {
+  onChangePerPage(data: any) {
     console.log(data.value);
     this.perPage = data.value;
     this.seeUsers();

@@ -1,25 +1,27 @@
-<div class="login-container">
-  <h1>Login</h1>
-  <form class="example-form" [formGroup]="loginFormControl">
-    <mat-form-field class="example-full-width">
-      <mat-label>Token</mat-label>
-      <input
-        class="token-input"
-        type="token"
-        matInput
-        formControlName="tokenControl"
-      />
-      @if (loginFormControl.hasError('required')) {
-      <mat-error>Email is <strong>required</strong></mat-error>
-      }
-    </mat-form-field>
-    <button
-      mat-raised-button
-      type="submit"
-      (click)="onLogin()"
-      [disabled]="!loginFormControl.valid"
-    >
-      Login
-    </button>
-  </form>
+<div class="full-page">
+  <div class="login-container">
+    <h1>Login</h1>
+    <form class="example-form" [formGroup]="loginFormControl">
+      <mat-form-field class="example-full-width">
+        <mat-label>Token</mat-label>
+        <input
+          class="token-input"
+          type="token"
+          matInput
+          formControlName="tokenControl"
+        />
+        @if (loginFormControl.hasError('required')) {
+        <mat-error>Email is <strong>required</strong></mat-error>
+        }
+      </mat-form-field>
+      <button
+        mat-raised-button
+        type="submit"
+        (click)="onLogin()"
+        [disabled]="!loginFormControl.valid"
+      >
+        Login
+      </button>
+    </form>
+  </div>
 </div>
