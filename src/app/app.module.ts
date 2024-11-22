@@ -22,23 +22,24 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { LoginComponent } from './components/login/login.component';
-import { SignupComponent } from './components/signup/signup.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ContactsComponent } from './components/contacts/contacts.component';
 import { authInterceptor } from './interceptors/auth.interceptor';
+import { DialogContentComponent } from './components/contacts/dialog-content/dialog-content.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomepageComponent,
     LoginComponent,
-    SignupComponent,
     ContactsComponent,
+    DialogContentComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,6 +57,7 @@ import { authInterceptor } from './interceptors/auth.interceptor';
     MatDividerModule,
     MatBadgeModule,
     MatSelectModule,
+    MatDialogModule,
   ],
   providers: [
     provideClientHydration(),

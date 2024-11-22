@@ -11,6 +11,7 @@ export class HomepageComponent implements OnInit {
   posts!: Post[];
   currentPage: number = 1;
   perPage: number = 6;
+  isLoggedIn: boolean = false;
 
   constructor(private authService: AuthService) {}
 
@@ -19,11 +20,17 @@ export class HomepageComponent implements OnInit {
   }
 
   seePosts() {
-    this.authService
-      .getPostList(this.currentPage, this.perPage)
-      .subscribe((data: any) => {
-        this.posts = data;
-      });
+    const storageUser = JSON.parse(localStorage.getItem('userData')!);
+    const storageToken = storageUser.token;
+
+    if (storageToken) {
+      this.isLoggedIn = true;
+      this.authService
+        .getPostList(this.currentPage, this.perPage, storageToken)
+        .subscribe((data: any) => {
+          this.posts = data;
+        });
+    }
   }
 
   firstPage(): void {

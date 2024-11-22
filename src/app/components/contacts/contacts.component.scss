@@ -8,10 +8,21 @@
     width: 80%;
   }
 
-  .filter-input {
-    width: 99%;
-    margin-top: 10px;
-    margin-left: 10px;
+  .upper-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    button {
+      margin-right: 30px;
+    }
+
+    .filter-input {
+      width: 93%;
+      margin-top: 10px;
+      margin-left: 10px;
+    }
   }
 
   .pagination {
@@ -49,5 +60,24 @@
 
   .white-icon {
     color: #fff;
+  }
+
+  .error {
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h1 {
+      font-size: 60px;
+      color: #000;
+    }
+
+    h2 {
+      color: #701010;
+    }
   }
 }

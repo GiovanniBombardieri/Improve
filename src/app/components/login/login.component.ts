@@ -22,16 +22,14 @@ export class LoginComponent implements OnInit {
 
   onLogin() {
     if (this.loginFormControl.valid) {
-      let data: Auth = {
+      let userData: Auth = {
         dateMill: new Date().getTime() + 60 * 60 * 1000,
         token: this.loginFormControl.get('tokenControl')?.value,
       };
-      console.log(data);
 
-      this.authService.loginUser(data.token).subscribe((loggedUser) => {
-        localStorage.setItem('data:', JSON.stringify(data));
-        this.router.navigate(['/contacts']);
-      });
+      localStorage.setItem('userData', JSON.stringify(userData));
+
+      this.router.navigate(['/contacts']);
     }
   }
 }

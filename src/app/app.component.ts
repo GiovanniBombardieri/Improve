@@ -7,4 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent {
   title = 'improve';
+
+  constructor() {}
+
+  logout() {
+    localStorage.clear();
+    window.location.reload();
+  }
 }

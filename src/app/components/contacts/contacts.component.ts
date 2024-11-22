@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { User } from '../../../models/user';
-import { HttpClient } from '@angular/common/http';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogContentComponent } from './dialog-content/dialog-content.component';
 
 @Component({
   selector: 'app-contacts',
@@ -20,6 +21,8 @@ export class ContactsComponent {
   users!: User[];
   currentPage: number = 1;
   perPage: number = 12;
+  isLoggedIn: boolean = false;
+  readonly dialog = inject(MatDialog);
 
   constructor(private authService: AuthService) {}
 
@@ -28,17 +31,37 @@ export class ContactsComponent {
   }
 
   seeUsers() {
-    const authData = JSON.parse(localStorage.getItem('data') || '{}');
-    const token =
-      '9a88a3d1d56406dfd40f191c73781955948c5b1870d05b10681522b11d637ef3';
+    const storageUser = JSON.parse(localStorage.getItem('userData')!);
+    const storageToken = storageUser.token;
 
-    if (token) {
+    if (storageToken) {
+      this.isLoggedIn = true;
       this.authService
-        .getUserList(this.currentPage, this.perPage)
+        .getUserList(this.currentPage, this.perPage, storageToken)
         .subscribe((data: any) => {
           this.users = data;
         });
     }
+  }
+
+  onDeleteUser(id: number) {
+    const storageUser = JSON.parse(localStorage.getItem('userData')!);
+    const storageToken = storageUser.token;
+
+    if (storageToken) {
+      this.isLoggedIn = true;
+      this.authService.deleteUser(storageToken, id).subscribe((data) => {
+        console.log(data);
+      });
+    }
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(DialogContentComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
   onChangePerPage(data: any) {

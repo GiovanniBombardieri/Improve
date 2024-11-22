@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Auth } from '../../models/auth';
+import { User } from '../../models/user';
 
 @Injectable({
   providedIn: 'root',
@@ -19,19 +20,35 @@ export class AuthService {
     return this.http.get<Auth>(`${this.url}/users`, { headers });
   }
 
-  signUp(body: {}) {
-    return this.http.post(this.url, body);
+  getUserList(page: number, perPage: number, token: string) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', `Bearer ${token}`);
+
+    return this.http.get(`${this.url}/users?page=${page}&per_page=${perPage}`, {
+      headers,
+    });
   }
 
-  getUserList(page: number, perPage: number) {
-    return this.http.get(`${this.url}/users?page=${page}&per_page=${perPage}`);
+  getPostList(page: number, perPage: number, token: string) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', `Bearer ${token}`);
+
+    return this.http.get(`${this.url}/posts?page=${page}&per_page=${perPage}`, {
+      headers,
+    });
   }
 
-  getPostList(page: number, perPage: number) {
-    return this.http.get(`${this.url}/posts?page=${page}&per_page=${perPage}`);
+  deleteUser(token: string, id: number | undefined) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', `Bearer ${token}`);
+
+    return this.http.delete(`${this.url}/users/${id}`, { headers });
   }
 
-  deleteUser(id: number | undefined) {
-    return this.http.delete(`${this.url}/users/${id}`);
+  createUser(token: string, user: User) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', `Bearer ${token}`);
+
+    return this.http.post(`${this.url}/users`, user, { headers });
   }
 }
