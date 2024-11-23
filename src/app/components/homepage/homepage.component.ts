@@ -9,9 +9,11 @@ import { Post } from '../../../models/post';
 })
 export class HomepageComponent implements OnInit {
   posts!: Post[];
+  comments: Comment[] | any;
   currentPage: number = 1;
   perPage: number = 6;
   isLoggedIn: boolean = false;
+  haveComments: boolean = false;
 
   constructor(private authService: AuthService) {}
 
@@ -29,7 +31,23 @@ export class HomepageComponent implements OnInit {
         .getPostList(this.currentPage, this.perPage, storageToken)
         .subscribe((data: any) => {
           this.posts = data;
+
+          this.posts.forEach((element) => {
+            this.seeComments(element.id);
+          });
         });
+    }
+  }
+
+  seeComments(id: number): void {
+    const storageUser = JSON.parse(localStorage.getItem('userData')!);
+    const storageToken = storageUser.token;
+
+    if (storageToken) {
+      this.authService.getPostComment(storageToken, id).subscribe((data) => {
+        this.comments = data;
+        console.log(this.comments);
+      });
     }
   }
 
