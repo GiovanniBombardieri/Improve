@@ -6,6 +6,7 @@ import { DialogContentComponent } from './dialog-content/dialog-content.componen
 import { Router } from '@angular/router';
 import { DialogUserComponent } from './dialog-user/dialog-user.component';
 import { UserServiceService } from '../../service/user-service.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-contacts',
@@ -29,6 +30,8 @@ export class ContactsComponent {
   detailedUser!: User;
   readonly dialog = inject(MatDialog);
 
+  dataSource = new MatTableDataSource(this.users);
+
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -37,6 +40,11 @@ export class ContactsComponent {
 
   ngOnInit(): void {
     this.seeUsers();
+  }
+
+  applyFilter(event: Event) {
+    const filterData = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterData.trim().toLowerCase();
   }
 
   seeUsers() {
@@ -61,6 +69,7 @@ export class ContactsComponent {
       this.isLoggedIn = true;
       this.authService.deleteUser(storageToken, id).subscribe((data) => {
         console.log(data);
+        location.reload();
       });
     }
   }

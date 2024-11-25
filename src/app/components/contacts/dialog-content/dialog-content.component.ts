@@ -39,6 +39,7 @@ export class DialogContentComponent implements OnInit {
     if (storageToken) {
       this.authService.createUser(storageToken, newUser).subscribe((data) => {
         console.log(data);
+        location.reload();
       });
     }
   }

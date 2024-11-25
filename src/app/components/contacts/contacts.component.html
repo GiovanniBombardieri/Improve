@@ -4,7 +4,11 @@
   <div class="upper-bar">
     <mat-form-field class="filter-input">
       <mat-label>Filter</mat-label>
-      <input matInput placeholder="Ex. Devi Patel" />
+      <input
+        matInput
+        placeholder="Ex. Devi Patel"
+        (keyup)="applyFilter($event)"
+      />
     </mat-form-field>
     <button mat-raised-button (click)="openDialog()">
       <mat-icon>person_add</mat-icon>

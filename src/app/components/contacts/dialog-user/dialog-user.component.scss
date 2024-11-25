@@ -54,11 +54,16 @@
   }
 
   .comment {
-    margin-top: 10px;
-    padding: 20px;
+    margin-left: 30px;
 
-    h3 {
-      margin-top: 10px;
+    &-user {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      mat-icon {
+        margin-right: 5px;
+      }
     }
   }
 }

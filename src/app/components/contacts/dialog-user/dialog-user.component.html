@@ -29,23 +29,23 @@
     <h2>{{ post.title }}</h2>
     <mat-divider></mat-divider>
     <p>{{ post.body }}</p>
-    @if (!revealComments) {
-    <div class="post-container-button">
-      <button mat-button (click)="seeComments(post.id)">See comments</button>
-    </div>
-    } @if (revealComments) {
-    <div class="post-container-button">
-      <button mat-button (click)="revealComments = false">Hide comments</button>
-    </div>
-    @for (comment of comments; track $index) {
+    <mat-divider></mat-divider>
+    @for (comment of comments; track $index) { @if (comment.post_id === post.id)
+    {
+    <button mat-button (click)="revealComments = !revealComments">
+      @if (!revealComments) {See comments} @else {Hide comments}
+    </button>
+    @if (revealComments) {
     <div class="comment">
-      <mat-divider></mat-divider>
-      <h3>
-        <strong>{{ comment.name }}</strong> - {{ comment.email }}
-      </h3>
+      <div class="comment-user">
+        <mat-icon>person</mat-icon>
+        <p>
+          <strong>{{ comment.name }}</strong>
+        </p>
+      </div>
       <p>{{ comment.body }}</p>
     </div>
-    } }
+    } } }
   </div>
   } }
 </mat-dialog-content>

@@ -14,6 +14,7 @@ export class DialogUserComponent implements OnInit {
   posts: Post | any;
   comments: Comment | any;
   revealComments: boolean = false;
+  data: any;
 
   constructor(
     private userService: UserServiceService,
@@ -34,6 +35,12 @@ export class DialogUserComponent implements OnInit {
         .getUserPosts(storageToken, this.user.id)
         .subscribe((data) => {
           this.posts = data;
+          console.log(this.posts);
+
+          this.posts.forEach((element: any) => {
+            this.seeComments(element.id);
+            console.log(this.comments);
+          });
         });
     }
   }
@@ -44,8 +51,6 @@ export class DialogUserComponent implements OnInit {
 
     this.authService.getPostComment(storageToken, postId).subscribe((data) => {
       this.comments = data;
-      this.revealComments = true;
-      console.log(this.comments);
     });
   }
 }
