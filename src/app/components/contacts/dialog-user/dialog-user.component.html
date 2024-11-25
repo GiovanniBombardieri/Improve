@@ -30,12 +30,12 @@
     <mat-divider></mat-divider>
     <p>{{ post.body }}</p>
     <mat-divider></mat-divider>
-    @for (comment of comments; track $index) { @if (comment.post_id === post.id)
-    {
+    @for (comment of comments; track $index; let f = $first) { @if
+    (comment.post_id === post.id) { @if (f) {
     <button mat-button (click)="revealComments = !revealComments">
       @if (!revealComments) {See comments} @else {Hide comments}
     </button>
-    @if (revealComments) {
+    } @if (revealComments) {
     <div class="comment">
       <div class="comment-user">
         <mat-icon>person</mat-icon>
