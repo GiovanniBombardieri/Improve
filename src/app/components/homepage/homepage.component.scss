@@ -92,24 +92,24 @@
     .white-icon {
       color: #fff;
     }
+  }
+}
 
-    .error {
-      width: 100vw;
-      height: 100vh;
+.error {
+  width: 100vw;
+  height: 100vh;
 
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-      h1 {
-        font-size: 60px;
-        color: #000;
-      }
+  h1 {
+    font-size: 60px;
+    color: #000;
+  }
 
-      h2 {
-        color: #701010;
-      }
-    }
+  h2 {
+    color: #701010;
   }
 }

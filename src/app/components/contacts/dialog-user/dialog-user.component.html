@@ -26,7 +26,12 @@
 
   @if (posts.length > 0) { @for (post of posts; track $index) {
   <div class="post-container">
-    <h2>{{ post.title }}</h2>
+    <div class="post-container-title">
+      <h2>{{ post.title }}</h2>
+      <button mat-icon-button (click)="onDeletePost(post.id)">
+        <mat-icon color="warn">delete</mat-icon>
+      </button>
+    </div>
     <mat-divider></mat-divider>
     <p>{{ post.body }}</p>
     <mat-divider></mat-divider>

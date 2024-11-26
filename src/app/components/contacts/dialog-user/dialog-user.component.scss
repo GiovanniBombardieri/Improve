@@ -43,6 +43,17 @@
   margin-bottom: 20px;
   padding: 20px;
 
+  &-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    h2 {
+      margin-bottom: 0px;
+    }
+  }
+
   p {
     margin-top: 10px;
   }

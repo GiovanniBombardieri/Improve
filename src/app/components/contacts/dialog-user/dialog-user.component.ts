@@ -26,6 +26,17 @@ export class DialogUserComponent implements OnInit {
     this.onUserDetails();
   }
 
+  onDeletePost(postId: number) {
+    const storageUser = JSON.parse(localStorage.getItem('userData')!);
+    const storageToken = storageUser.token;
+
+    if (storageToken) {
+      this.authService.deletePost(storageToken, postId).subscribe((data) => {
+        location.reload();
+      });
+    }
+  }
+
   onUserDetails() {
     const storageUser = JSON.parse(localStorage.getItem('userData')!);
     const storageToken = storageUser.token;

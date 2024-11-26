@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Auth } from '../../models/auth';
 import { User } from '../../models/user';
+import { Post } from '../../models/post';
 
 @Injectable({
   providedIn: 'root',
@@ -64,5 +65,23 @@ export class AuthService {
     headers = headers.set('Authorization', `Bearer ${token}`);
 
     return this.http.get(`${this.url}/posts/${id}/comments`, { headers });
+  }
+
+  createNewPost(token: string, userId: number, body: Post) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', `Bearer ${token}`);
+
+    return this.http.post(`${this.url}/users/${userId}/posts`, body, {
+      headers,
+    });
+  }
+
+  deletePost(token: string, postId: number) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', `Bearer ${token}`);
+
+    return this.http.delete(`${this.url}/posts/${postId}`, {
+      headers,
+    });
   }
 }

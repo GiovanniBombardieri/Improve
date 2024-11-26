@@ -12,6 +12,7 @@ export class DialogContentComponent implements OnInit {
   addNewUserForm!: FormGroup;
   currentPage: number = 1;
   perPage: number = 12;
+  newUser!: any;
 
   constructor(private authService: AuthService) {}
 
@@ -38,7 +39,8 @@ export class DialogContentComponent implements OnInit {
 
     if (storageToken) {
       this.authService.createUser(storageToken, newUser).subscribe((data) => {
-        console.log(data);
+        this.newUser = data;
+        localStorage.setItem('currentUser', JSON.stringify(this.newUser));
         location.reload();
       });
     }

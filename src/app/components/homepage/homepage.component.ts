@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { Post } from '../../../models/post';
+import { MatDialog } from '@angular/material/dialog';
+import { NewUserDialogComponent } from './new-user-dialog/new-user-dialog.component';
 
 @Component({
   selector: 'app-homepage',
@@ -14,11 +16,20 @@ export class HomepageComponent implements OnInit {
   perPage: number = 6;
   isLoggedIn: boolean = false;
   haveComments: boolean = false;
+  readonly dialog = inject(MatDialog);
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.seePosts();
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(NewUserDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
   seePosts() {

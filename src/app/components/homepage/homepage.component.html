@@ -1,3 +1,4 @@
+@if (isLoggedIn) {
 <div class="page">
   <div class="new-post">
     <mat-form-field class="filter-input">
@@ -5,10 +6,10 @@
       <input matInput />
     </mat-form-field>
     <span class="spacer"></span>
-    <button mat-flat-button>Create new post</button>
+    <button mat-flat-button (click)="openDialog()">Create new post</button>
   </div>
   <div class="full-page">
-    @if (isLoggedIn) { @for (post of posts; track $index) {
+    @for (post of posts; track $index) {
 
     <div class="grid">
       <div class="container">
@@ -68,12 +69,14 @@
         <mat-icon class="white-icon">last_page</mat-icon>
       </button>
     </div>
-    } @if (!isLoggedIn) {
-    <div class="error">
-      <h1>You're not authorized!</h1>
-      <h2>Plese insert a valid token for get the access</h2>
-      <a routerLink="/login"><button mat-flat-button>Back to Login</button></a>
-    </div>
-    }
   </div>
 </div>
+} @if (!isLoggedIn) {
+<div class="page">
+  <div class="error">
+    <h1>You're not authorized!</h1>
+    <h2>Plese insert a valid token for get the access</h2>
+    <a routerLink="/login"><button mat-flat-button>Back to Login</button></a>
+  </div>
+</div>
+}

@@ -71,6 +71,7 @@ export class ContactsComponent {
         console.log(data);
         location.reload();
       });
+      localStorage.removeItem('currentUser');
     }
   }
 
