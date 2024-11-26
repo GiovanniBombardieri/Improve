@@ -3,6 +3,7 @@ import { AuthService } from '../../auth/auth.service';
 import { Post } from '../../../models/post';
 import { MatDialog } from '@angular/material/dialog';
 import { NewPostDialogComponent } from './new-user-dialog/new-user-dialog.component';
+import { Comment } from '../../../models/comment';
 
 @Component({
   selector: 'app-homepage',
@@ -11,11 +12,12 @@ import { NewPostDialogComponent } from './new-user-dialog/new-user-dialog.compon
 })
 export class HomepageComponent implements OnInit {
   posts!: Post[];
-  comments: Comment[] | any;
+  commentsArray: Comment[] = [];
   currentPage: number = 1;
   perPage: number = 6;
   isLoggedIn: boolean = false;
   haveComments: boolean = false;
+  i: number = 0;
   readonly dialog = inject(MatDialog);
 
   constructor(private authService: AuthService) {}
@@ -44,21 +46,15 @@ export class HomepageComponent implements OnInit {
           this.posts = data;
 
           this.posts.forEach((element) => {
-            this.seeComments(element.id);
+            this.authService
+              .getPostComment(storageToken, element.id)
+              .subscribe((data: any) => {
+                data.forEach((item: Comment) => {
+                  this.commentsArray.push(item);
+                });
+              });
           });
         });
-    }
-  }
-
-  seeComments(id: number): void {
-    const storageUser = JSON.parse(localStorage.getItem('userData')!);
-    const storageToken = storageUser.token;
-
-    if (storageToken) {
-      this.authService.getPostComment(storageToken, id).subscribe((data) => {
-        this.comments = data;
-        console.log(this.comments);
-      });
     }
   }
 
