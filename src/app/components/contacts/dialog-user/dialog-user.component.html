@@ -69,6 +69,12 @@
         </p>
       </div>
       <p>{{ comment.body }}</p>
+
+      @if (currentUserName === comment.name) {
+      <button mat-flat-button (click)="onDeleteComment(comment.id)">
+        delete comment
+      </button>
+      }
     </div>
     } } }
   </div>

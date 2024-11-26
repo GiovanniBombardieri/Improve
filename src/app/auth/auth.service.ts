@@ -94,4 +94,11 @@ export class AuthService {
       headers,
     });
   }
+
+  deleteComment(token: string, commentId: number) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', `Bearer ${token}`);
+
+    return this.http.delete(`${this.url}/comments/${commentId}`, { headers });
+  }
 }

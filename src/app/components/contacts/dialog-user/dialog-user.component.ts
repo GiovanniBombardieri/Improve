@@ -18,6 +18,7 @@ export class DialogUserComponent implements OnInit {
   revealComments: boolean = false;
   data: any;
   currentUserId: number | undefined;
+  currentUserName: string | undefined;
   addComment: boolean = false;
   addNewCommentForm!: FormGroup;
 
@@ -33,6 +34,7 @@ export class DialogUserComponent implements OnInit {
     if (localStorage.getItem('currentUser')) {
       let currentUser = JSON.parse(localStorage.getItem('currentUser')!);
       this.currentUserId = currentUser.id;
+      this.currentUserName = currentUser.name;
     }
 
     this.addNewCommentForm = new FormGroup({
@@ -103,8 +105,23 @@ export class DialogUserComponent implements OnInit {
           .createPostComment(storageToken, postId, newComment)
           .subscribe((data) => {
             console.log(data);
+            location.reload();
           });
       }
+    }
+  }
+
+  onDeleteComment(commentId: number) {
+    const storageUser = JSON.parse(localStorage.getItem('userData')!);
+    const storageToken = storageUser.token;
+
+    if (storageToken) {
+      this.authService
+        .deleteComment(storageToken, commentId)
+        .subscribe((data) => {
+          console.log(data);
+          location.reload();
+        });
     }
   }
 }
