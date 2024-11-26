@@ -21,6 +21,7 @@ export class DialogUserComponent implements OnInit {
   currentUserName: string | undefined;
   addComment: boolean = false;
   addNewCommentForm!: FormGroup;
+  userExist: boolean = false;
 
   constructor(
     private userService: UserServiceService,
@@ -30,6 +31,7 @@ export class DialogUserComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.userService.detailedUser;
     this.onUserDetails();
+    this.checkUser();
 
     if (localStorage.getItem('currentUser')) {
       let currentUser = JSON.parse(localStorage.getItem('currentUser')!);
@@ -122,6 +124,12 @@ export class DialogUserComponent implements OnInit {
           console.log(data);
           location.reload();
         });
+    }
+  }
+
+  checkUser(): void {
+    if (localStorage.getItem('currentUser')) {
+      this.userExist = true;
     }
   }
 }
