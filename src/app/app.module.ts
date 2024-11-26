@@ -33,7 +33,7 @@ import { ContactsComponent } from './components/contacts/contacts.component';
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { DialogContentComponent } from './components/contacts/dialog-content/dialog-content.component';
 import { DialogUserComponent } from './components/contacts/dialog-user/dialog-user.component';
-import { NewUserDialogComponent } from './components/homepage/new-user-dialog/new-user-dialog.component';
+import { NewPostDialogComponent } from './components/homepage/new-user-dialog/new-user-dialog.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +43,7 @@ import { NewUserDialogComponent } from './components/homepage/new-user-dialog/ne
     ContactsComponent,
     DialogContentComponent,
     DialogUserComponent,
-    NewUserDialogComponent,
+    NewPostDialogComponent,
   ],
   imports: [
     BrowserModule,

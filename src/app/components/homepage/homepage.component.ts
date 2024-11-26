@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { Post } from '../../../models/post';
 import { MatDialog } from '@angular/material/dialog';
-import { NewUserDialogComponent } from './new-user-dialog/new-user-dialog.component';
+import { NewPostDialogComponent } from './new-user-dialog/new-user-dialog.component';
 
 @Component({
   selector: 'app-homepage',
@@ -25,7 +25,7 @@ export class HomepageComponent implements OnInit {
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(NewUserDialogComponent);
+    const dialogRef = this.dialog.open(NewPostDialogComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);

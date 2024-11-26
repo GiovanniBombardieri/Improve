@@ -5,11 +5,11 @@ import { User } from '../../../../models/user';
 import { Post } from '../../../../models/post';
 
 @Component({
-  selector: 'app-new-user-dialog',
-  templateUrl: './new-user-dialog.component.html',
-  styleUrl: './new-user-dialog.component.scss',
+  selector: 'app-new-post-dialog',
+  templateUrl: './new-post-dialog.component.html',
+  styleUrl: './new-post-dialog.component.scss',
 })
-export class NewUserDialogComponent {
+export class NewPostDialogComponent {
   addNewPost!: FormGroup;
   currentPage: number = 1;
   perPage: number = 12;
