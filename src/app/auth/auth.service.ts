@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Auth } from '../../models/auth';
 import { User } from '../../models/user';
 import { Post } from '../../models/post';
+import { Comment } from '../../models/comment';
 
 @Injectable({
   providedIn: 'root',
@@ -81,6 +82,15 @@ export class AuthService {
     headers = headers.set('Authorization', `Bearer ${token}`);
 
     return this.http.delete(`${this.url}/posts/${postId}`, {
+      headers,
+    });
+  }
+
+  createPostComment(token: string, postId: number, commentBody: Comment) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', `Bearer ${token}`);
+
+    return this.http.post(`${this.url}/posts/${postId}/comments`, commentBody, {
       headers,
     });
   }
