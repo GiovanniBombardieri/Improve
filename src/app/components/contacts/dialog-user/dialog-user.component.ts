@@ -15,6 +15,7 @@ export class DialogUserComponent implements OnInit {
   comments: Comment | any;
   revealComments: boolean = false;
   data: any;
+  currentUserId: number | undefined;
 
   constructor(
     private userService: UserServiceService,
@@ -24,6 +25,11 @@ export class DialogUserComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.userService.detailedUser;
     this.onUserDetails();
+
+    if (localStorage.getItem('currentUser')) {
+      let currentUser = JSON.parse(localStorage.getItem('currentUser')!);
+      this.currentUserId = currentUser.id;
+    }
   }
 
   onDeletePost(postId: number) {

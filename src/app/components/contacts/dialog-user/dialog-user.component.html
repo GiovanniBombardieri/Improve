@@ -28,9 +28,11 @@
   <div class="post-container">
     <div class="post-container-title">
       <h2>{{ post.title }}</h2>
+      @if (currentUserId === user.id) {
       <button mat-icon-button (click)="onDeletePost(post.id)">
         <mat-icon color="warn">delete</mat-icon>
       </button>
+      }
     </div>
     <mat-divider></mat-divider>
     <p>{{ post.body }}</p>
