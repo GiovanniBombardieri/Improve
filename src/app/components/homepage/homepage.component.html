@@ -3,13 +3,13 @@
   <div class="new-post">
     <mat-form-field class="filter-input">
       <mat-label>Filter</mat-label>
-      <input matInput />
+      <input matInput (keyup)="applyFilter($event)" />
     </mat-form-field>
     <span class="spacer"></span>
     <button mat-flat-button (click)="openDialog()">Create new post</button>
   </div>
   <div class="full-page">
-    @for (post of posts; track $index) {
+    @if (filteredList.length === 0) { @for (post of posts; track $index) {
 
     <div class="grid">
       <div class="container">
@@ -39,7 +39,37 @@
         </div>
       </div>
     </div>
-    }
+    }} @else { @for (post of filteredList; track $index) {
+
+    <div class="grid">
+      <div class="container">
+        <div class="container-post">
+          <h1>{{ post.title }}</h1>
+          <mat-divider></mat-divider>
+          <p>{{ post.body }}</p>
+          <div class="container-post-icon"></div>
+          <div class="container-post-icon-account">
+            <mat-icon>account_circle</mat-icon>
+            <h3>{{ post.user_id }}</h3>
+          </div>
+
+          @for (comment of commentsArray; track $index) { @if (comment.post_id
+          === post.id) {
+          <div class="comments">
+            <mat-divider></mat-divider>
+            <div class="user-comment">
+              <mat-icon>person</mat-icon>
+              <h4>
+                <strong>{{ comment.name }}</strong>
+              </h4>
+            </div>
+            <p>{{ comment.body }}</p>
+          </div>
+          } }
+        </div>
+      </div>
+    </div>
+    } }
 
     <div class="pagination">
       <button mat-button (click)="firstPage()" [disabled]="currentPage === 1">

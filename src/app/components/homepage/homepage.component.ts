@@ -13,12 +13,13 @@ import { log } from 'console';
 })
 export class HomepageComponent implements OnInit {
   posts: Post[] = [];
+  allPost: Post[] = [];
   commentsArray: Comment[] = [];
   currentPage: number = 1;
   perPage: number = 6;
   isLoggedIn: boolean = false;
   haveComments: boolean = false;
-  i: number = 0;
+  filteredList: Post[] = [];
   readonly dialog = inject(MatDialog);
 
   constructor(private authService: AuthService) {}
@@ -33,6 +34,34 @@ export class HomepageComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value
+      .trim()
+      .toLowerCase();
+
+    console.log(filterValue);
+
+    const storageUser = JSON.parse(localStorage.getItem('userData')!);
+    const storageToken = storageUser.token;
+    if (storageToken) {
+      this.authService.getAllPost(storageToken).subscribe((data: any) => {
+        data.forEach((post: Post) => {
+          this.allPost.push(post);
+        });
+      });
+    }
+
+    if (!filterValue) {
+      this.filteredList = [...this.posts];
+    } else {
+      this.filteredList = this.allPost.filter((post) =>
+        post.title.toLowerCase().includes(filterValue)
+      );
+    }
+
+    console.log(this.filteredList);
   }
 
   seePosts() {
@@ -63,6 +92,7 @@ export class HomepageComponent implements OnInit {
   firstPage(): void {
     if (this.currentPage > 1) {
       this.currentPage = 1;
+      this.filteredList = [];
       this.seePosts();
     }
   }
@@ -70,18 +100,21 @@ export class HomepageComponent implements OnInit {
   previousPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
+      this.filteredList = [];
       this.seePosts();
     }
   }
 
   nextPage(): void {
     this.currentPage++;
+    this.filteredList = [];
     this.seePosts();
   }
 
   lastPage(): void {
     if (this.currentPage < 20) {
       this.currentPage = 20;
+      this.filteredList = [];
       this.seePosts();
     }
   }
