@@ -4,6 +4,7 @@ import { Post } from '../../../models/post';
 import { MatDialog } from '@angular/material/dialog';
 import { NewPostDialogComponent } from './new-user-dialog/new-user-dialog.component';
 import { Comment } from '../../../models/comment';
+import { log } from 'console';
 
 @Component({
   selector: 'app-homepage',
@@ -11,7 +12,7 @@ import { Comment } from '../../../models/comment';
   styleUrl: './homepage.component.scss',
 })
 export class HomepageComponent implements OnInit {
-  posts!: Post[];
+  posts: Post[] = [];
   commentsArray: Comment[] = [];
   currentPage: number = 1;
   perPage: number = 6;
@@ -40,6 +41,7 @@ export class HomepageComponent implements OnInit {
 
     if (storageToken) {
       this.isLoggedIn = true;
+
       this.authService
         .getPostList(this.currentPage, this.perPage, storageToken)
         .subscribe((data: any) => {

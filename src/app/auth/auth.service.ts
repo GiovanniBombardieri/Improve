@@ -40,6 +40,13 @@ export class AuthService {
     });
   }
 
+  getAllPost(token: string) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', `Bearer ${token}`);
+
+    return this.http.get(`${this.url}/posts?per_page=100`, { headers });
+  }
+
   deleteUser(token: string, id: number | undefined) {
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);

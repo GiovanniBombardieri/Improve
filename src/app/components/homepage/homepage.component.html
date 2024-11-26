@@ -17,11 +17,10 @@
           <h1>{{ post.title }}</h1>
           <mat-divider></mat-divider>
           <p>{{ post.body }}</p>
-          <div class="container-post-icon">
-            <div class="container-post-icon-account">
-              <mat-icon>account_circle</mat-icon>
-              <h3>{{ post.user_id }}</h3>
-            </div>
+          <div class="container-post-icon"></div>
+          <div class="container-post-icon-account">
+            <mat-icon>account_circle</mat-icon>
+            <h3>{{ post.user_id }}</h3>
           </div>
 
           @for (comment of commentsArray; track $index) { @if (comment.post_id

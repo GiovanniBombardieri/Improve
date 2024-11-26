@@ -3,7 +3,6 @@ import { AuthService } from '../../auth/auth.service';
 import { User } from '../../../models/user';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogContentComponent } from './dialog-content/dialog-content.component';
-import { Router } from '@angular/router';
 import { DialogUserComponent } from './dialog-user/dialog-user.component';
 import { UserServiceService } from '../../service/user-service.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -23,18 +22,18 @@ export class ContactsComponent {
     'gender',
     'delete',
   ];
-  users!: User[];
+  users: User[] = [];
   currentPage: number = 1;
   perPage: number = 12;
   isLoggedIn: boolean = false;
   detailedUser!: User;
+  filteredList: User[] = [];
   readonly dialog = inject(MatDialog);
 
-  dataSource = new MatTableDataSource(this.users);
+  dataSource = new MatTableDataSource<User>();
 
   constructor(
     private authService: AuthService,
-    private router: Router,
     private userService: UserServiceService
   ) {}
 
@@ -43,8 +42,19 @@ export class ContactsComponent {
   }
 
   applyFilter(event: Event) {
-    const filterData = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterData.trim().toLowerCase();
+    const filterValue = (event.target as HTMLInputElement).value
+      .trim()
+      .toLowerCase();
+
+    if (!filterValue) {
+      this.filteredList = [...this.users];
+    } else {
+      this.filteredList = this.users.filter((user) =>
+        user.name.toLowerCase().includes(filterValue)
+      );
+    }
+
+    this.dataSource.data = this.filteredList;
   }
 
   seeUsers() {
@@ -57,6 +67,7 @@ export class ContactsComponent {
         .getUserList(this.currentPage, this.perPage, storageToken)
         .subscribe((data: any) => {
           this.users = data;
+          this.dataSource = new MatTableDataSource(this.users);
         });
     }
   }
