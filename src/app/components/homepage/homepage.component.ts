@@ -4,7 +4,6 @@ import { Post } from '../../../models/post';
 import { MatDialog } from '@angular/material/dialog';
 import { NewPostDialogComponent } from './new-user-dialog/new-user-dialog.component';
 import { Comment } from '../../../models/comment';
-import { log } from 'console';
 
 @Component({
   selector: 'app-homepage',
