@@ -16,10 +16,11 @@ export class HomepageComponent implements OnInit {
   allPost: Post[] = [];
   commentsArray: Comment[] = [];
   currentPage: number = 1;
-  perPage: number = 6;
+  perPage: number = 24;
   isLoggedIn: boolean = false;
   haveComments: boolean = false;
   filteredList: Post[] = [];
+  pagination: boolean = true;
   readonly dialog = inject(MatDialog);
 
   constructor(private authService: AuthService) {}
@@ -41,24 +42,20 @@ export class HomepageComponent implements OnInit {
       .trim()
       .toLowerCase();
 
-    console.log(filterValue);
-
     const storageUser = JSON.parse(localStorage.getItem('userData')!);
     const storageToken = storageUser.token;
     if (storageToken) {
-      this.authService.getAllPost(storageToken).subscribe((data: any) => {
-        data.forEach((post: Post) => {
-          this.allPost.push(post);
-        });
-      });
-    }
-
-    if (!filterValue) {
-      this.filteredList = [...this.posts];
-    } else {
-      this.filteredList = this.allPost.filter((post) =>
-        post.title.toLowerCase().includes(filterValue)
-      );
+      this.pagination = false;
+      if (filterValue !== undefined) {
+        if (!filterValue) {
+          this.filteredList = [...this.posts];
+          this.pagination = true;
+        } else {
+          this.filteredList = this.posts.filter((post) =>
+            post.title.toLowerCase().includes(filterValue)
+          );
+        }
+      }
     }
 
     console.log(this.filteredList);

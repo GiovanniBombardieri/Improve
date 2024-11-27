@@ -69,8 +69,7 @@
         </div>
       </div>
     </div>
-    } }
-
+    } } @if (pagination) {
     <div class="pagination">
       <button mat-button (click)="firstPage()" [disabled]="currentPage === 1">
         <mat-icon class="white-icon">first_page</mat-icon>
@@ -90,6 +89,7 @@
         <mat-icon class="white-icon">last_page</mat-icon>
       </button>
     </div>
+    }
   </div>
 </div>
 } @if (!isLoggedIn) {
