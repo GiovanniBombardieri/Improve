@@ -30,7 +30,6 @@ import { HomepageComponent } from './components/homepage/homepage.component';
 import { LoginComponent } from './components/login/login.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ContactsComponent } from './components/contacts/contacts.component';
-import { authInterceptor } from './interceptors/auth.interceptor';
 import { DialogContentComponent } from './components/contacts/dialog-content/dialog-content.component';
 import { DialogUserComponent } from './components/contacts/dialog-user/dialog-user.component';
 import { NewPostDialogComponent } from './components/homepage/new-user-dialog/new-user-dialog.component';
@@ -65,7 +64,7 @@ import { NewPostDialogComponent } from './components/homepage/new-user-dialog/ne
   ],
   providers: [
     provideClientHydration(),
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(),
     provideAnimationsAsync(),
   ],
   bootstrap: [AppComponent],
