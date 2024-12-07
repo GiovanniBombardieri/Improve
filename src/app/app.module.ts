@@ -5,11 +5,7 @@ import {
 } from '@angular/platform-browser';
 
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-  HTTP_INTERCEPTORS,
-  provideHttpClient,
-  withInterceptors,
-} from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';

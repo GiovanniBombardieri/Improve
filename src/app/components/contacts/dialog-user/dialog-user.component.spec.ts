@@ -1,14 +1,25 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 
 import { DialogUserComponent } from './dialog-user.component';
+import { AuthService } from '../../../auth/auth.service';
 
 describe('DialogUserComponent', () => {
   let component: DialogUserComponent;
   let fixture: ComponentFixture<DialogUserComponent>;
+  let routerSpy: jasmine.SpyObj<Router>;
 
   beforeEach(async () => {
+    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+
     await TestBed.configureTestingModule({
       declarations: [DialogUserComponent],
+      providers: [
+        provideHttpClient(),
+        { provide: Router, useValue: routerSpy },
+        AuthService,
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DialogUserComponent);

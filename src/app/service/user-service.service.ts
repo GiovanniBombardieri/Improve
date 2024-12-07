@@ -8,4 +8,12 @@ export class UserServiceService {
   detailedUser!: User;
 
   constructor() {}
+
+  setDetailedUser(user: User): void {
+    this.detailedUser = user;
+  }
+
+  getDetailedUser(): User {
+    return this.detailedUser;
+  }
 }
