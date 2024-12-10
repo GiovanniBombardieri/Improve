@@ -5,6 +5,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { DialogUserComponent } from './dialog-user.component';
 import { AuthService } from '../../../auth/auth.service';
 
+import { MatDialogModule } from '@angular/material/dialog';
+
 describe('DialogUserComponent', () => {
   let component: DialogUserComponent;
   let fixture: ComponentFixture<DialogUserComponent>;
@@ -15,6 +17,7 @@ describe('DialogUserComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [DialogUserComponent],
+      imports: [MatDialogModule],
       providers: [
         provideHttpClient(),
         { provide: Router, useValue: routerSpy },

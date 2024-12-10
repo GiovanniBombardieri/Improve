@@ -5,6 +5,12 @@ import { provideHttpClient } from '@angular/common/http';
 import { DialogContentComponent } from './dialog-content.component';
 import { AuthService } from '../../../auth/auth.service';
 
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatRadioModule } from '@angular/material/radio';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 describe('DialogContentComponent', () => {
   let component: DialogContentComponent;
   let fixture: ComponentFixture<DialogContentComponent>;
@@ -15,6 +21,13 @@ describe('DialogContentComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [DialogContentComponent],
+      imports: [
+        MatDialogModule,
+        MatRadioModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        BrowserAnimationsModule,
+      ],
       providers: [
         provideHttpClient(),
         { provide: Router, useValue: routerSpy },

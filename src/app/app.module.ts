@@ -32,13 +32,13 @@ import { NewPostDialogComponent } from './components/homepage/new-post-dialog/ne
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HomepageComponent,
-    LoginComponent,
-    ContactsComponent,
-    DialogContentComponent,
-    DialogUserComponent,
-    NewPostDialogComponent,
+    // AppComponent,
+    // HomepageComponent,
+    // LoginComponent,
+    // ContactsComponent,
+    // DialogContentComponent,
+    // DialogUserComponent,
+    // NewPostDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,6 +63,6 @@ import { NewPostDialogComponent } from './components/homepage/new-post-dialog/ne
     provideHttpClient(),
     provideAnimationsAsync(),
   ],
-  bootstrap: [AppComponent],
+  // bootstrap: [AppComponent],
 })
 export class AppModule {}
