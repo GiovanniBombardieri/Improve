@@ -80,7 +80,7 @@ export class ContactsComponent {
       this.isLoggedIn = true;
       this.authService.deleteUser(storageToken, id).subscribe((data) => {
         console.log(data);
-        location.reload();
+        this.reloadPage();
       });
       localStorage.removeItem('currentUser');
     }
@@ -134,5 +134,9 @@ export class ContactsComponent {
       this.currentPage = 20;
       this.seeUsers();
     }
+  }
+
+  reloadPage(): void {
+    location.reload();
   }
 }

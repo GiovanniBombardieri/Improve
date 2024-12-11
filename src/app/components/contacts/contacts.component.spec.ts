@@ -61,25 +61,24 @@ describe('ContactsComponent', () => {
     authSpy.getUserList.and.returnValue(of(mockUsers));
 
     component.ngOnInit();
-
     fixture.detectChanges();
 
+    expect(authSpy.getUserList).toHaveBeenCalledWith(1, 12, 'mock-token');
     expect(component.users).toEqual(mockUsers);
-    expect(authSpy.getUserList).toHaveBeenCalled();
   });
 
   it('should delete a user when onDeleteUser is called', () => {
-    const userId = 1;
-    const mockResponse = { message: 'User deleted successfully' };
-    authSpy.deleteUser.and.returnValue(of(mockResponse));
+    const userId = 100100;
+    // const mockResponse = { message: 'User deleted successfully' };
+    authSpy.deleteUser.and.returnValue(
+      of({ message: 'User deleted successfully' })
+    );
+    spyOn(component, 'reloadPage').and.callFake(() => {});
 
     component.onDeleteUser(userId);
 
     expect(authSpy.deleteUser).toHaveBeenCalledWith('mock-token', userId);
     expect(localStorage.removeItem).toHaveBeenCalledWith('currentUser');
-
-    // Mock del metodo location.reload
-    const locationReloadSpy = spyOn(location, 'reload');
-    expect(locationReloadSpy).toHaveBeenCalled();
+    expect(component.reloadPage).toHaveBeenCalled();
   });
 });

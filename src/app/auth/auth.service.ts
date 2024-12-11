@@ -40,7 +40,7 @@ export class AuthService {
     });
   }
 
-  deleteUser(token: string, id: number | undefined) {
+  deleteUser(token: string, id: number) {
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);
 

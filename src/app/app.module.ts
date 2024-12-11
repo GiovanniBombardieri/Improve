@@ -32,7 +32,7 @@ import { NewPostDialogComponent } from './components/homepage/new-post-dialog/ne
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
     HomepageComponent,
     LoginComponent,
     ContactsComponent,
