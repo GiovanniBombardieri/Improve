@@ -57,7 +57,11 @@ export class DialogUserComponent implements OnInit {
 
   onUserDetails() {
     const storageUser = JSON.parse(localStorage.getItem('userData')!);
-    const storageToken = storageUser.token;
+    if (!storageUser) {
+      console.error('User data not found in localStorage');
+      return;
+    }
+    const storageToken = JSON.parse(storageUser).token;
 
     if (storageToken) {
       this.authService
