@@ -35,6 +35,10 @@ export class DialogUserComponent implements OnInit {
 
     if (localStorage.getItem('currentUser')) {
       let currentUser = JSON.parse(localStorage.getItem('currentUser')!);
+      if (!currentUser) {
+        console.error('User data not found in localStorage');
+        return;
+      }
       this.currentUserId = currentUser.id;
       this.currentUserName = currentUser.name;
     }
@@ -46,10 +50,14 @@ export class DialogUserComponent implements OnInit {
 
   onDeletePost(postId: number) {
     const storageUser = JSON.parse(localStorage.getItem('userData')!);
+    if (!storageUser) {
+      console.error('User data not found in localStorage');
+      return;
+    }
     const storageToken = storageUser.token;
 
     if (storageToken) {
-      this.authService.deletePost(storageToken, postId).subscribe((data) => {
+      this.authService.deletePost(storageToken, postId).subscribe(() => {
         location.reload();
       });
     }
@@ -61,18 +69,17 @@ export class DialogUserComponent implements OnInit {
       console.error('User data not found in localStorage');
       return;
     }
-    const storageToken = JSON.parse(storageUser).token;
+    const storageToken = storageUser.token;
 
     if (storageToken) {
       this.authService
         .getUserPosts(storageToken, this.user.id)
         .subscribe((data) => {
-          this.posts = data;
-          console.log(this.posts);
+          console.log(data);
 
+          this.posts = data;
           this.posts.forEach((element: any) => {
             this.seeComments(element.id);
-            console.log(this.comments);
           });
         });
     }
@@ -80,6 +87,10 @@ export class DialogUserComponent implements OnInit {
 
   seeComments(postId: number) {
     const storageUser = JSON.parse(localStorage.getItem('userData')!);
+    if (!storageUser) {
+      console.error('User data not found in localStorage');
+      return;
+    }
     const storageToken = storageUser.token;
 
     this.authService.getPostComment(storageToken, postId).subscribe((data) => {
@@ -89,6 +100,10 @@ export class DialogUserComponent implements OnInit {
 
   onAddComment(form: FormGroup, postId: number) {
     const storageUser = JSON.parse(localStorage.getItem('userData')!);
+    if (!storageUser) {
+      console.error('User data not found in localStorage');
+      return;
+    }
     const storageToken = storageUser.token;
 
     if (localStorage.getItem('currentUser')) {
@@ -104,13 +119,10 @@ export class DialogUserComponent implements OnInit {
         name: currentUserName,
       };
 
-      console.log(newComment);
-
       if (storageToken) {
         this.authService
           .createPostComment(storageToken, postId, newComment)
           .subscribe((data) => {
-            console.log(data);
             location.reload();
           });
       }
@@ -119,6 +131,10 @@ export class DialogUserComponent implements OnInit {
 
   onDeleteComment(commentId: number) {
     const storageUser = JSON.parse(localStorage.getItem('userData')!);
+    if (!storageUser) {
+      console.error('User data not found in localStorage');
+      return;
+    }
     const storageToken = storageUser.token;
 
     if (storageToken) {

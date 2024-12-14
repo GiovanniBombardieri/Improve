@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 
 import { DialogUserComponent } from './dialog-user.component';
 import { AuthService } from '../../../auth/auth.service';
 import { UserServiceService } from '../../../service/user-service.service';
 
+import { Location } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -14,6 +14,7 @@ describe('DialogUserComponent', () => {
   let fixture: ComponentFixture<DialogUserComponent>;
   let mockAuthService: jasmine.SpyObj<AuthService>;
   let mockUserService: jasmine.SpyObj<UserServiceService>;
+  const mockLocation = { reload: jasmine.createSpy('reload') };
 
   beforeEach(async () => {
     mockUserService = jasmine.createSpyObj('UserServiceService', [
@@ -21,7 +22,7 @@ describe('DialogUserComponent', () => {
     ]);
     mockAuthService = jasmine.createSpyObj('AuthService', [
       'deletePost',
-      'getUserPOsts',
+      'getUserPosts',
       'getPostComment',
       'createPostComment',
       'deleteComment',
@@ -33,6 +34,7 @@ describe('DialogUserComponent', () => {
       providers: [
         { provide: UserServiceService, useValue: mockUserService },
         { provide: AuthService, useValue: mockAuthService },
+        { provide: Location, useValue: mockLocation },
       ],
     }).compileComponents();
   });
@@ -81,8 +83,7 @@ describe('DialogUserComponent', () => {
   });
 
   it('should delete a post and reload the page', () => {
-    const postId = 123;
-    spyOn(window.location, 'reload');
+    const postId = 123123;
     mockAuthService.deletePost.and.returnValue(of({}));
 
     component.onDeletePost(postId);
@@ -91,7 +92,7 @@ describe('DialogUserComponent', () => {
       'fakeToken',
       postId
     );
-    expect(window.location.reload).toHaveBeenCalled();
+    expect(mockLocation.reload).toHaveBeenCalled();
   });
 
   it('should add a new comment', () => {
@@ -114,7 +115,14 @@ describe('DialogUserComponent', () => {
   });
 
   it('should fetch user posts', () => {
-    const mockPosts = [{ id: 1, title: 'Test Post' }];
+    const mockPosts = [
+      {
+        body: 'Body for test',
+        id: 100100,
+        title: 'Test Post',
+        user_id: 110110,
+      },
+    ];
     mockAuthService.getUserPosts.and.returnValue(of(mockPosts));
 
     component.onUserDetails();
@@ -139,7 +147,6 @@ describe('DialogUserComponent', () => {
 
   it('should delete a comment and reload the page', () => {
     const commentId = 123;
-    spyOn(window.location, 'reload');
     mockAuthService.deleteComment.and.returnValue(of({}));
 
     component.onDeleteComment(commentId);
@@ -148,7 +155,7 @@ describe('DialogUserComponent', () => {
       'fakeToken',
       commentId
     );
-    expect(window.location.reload).toHaveBeenCalled();
+    expect(mockLocation.reload).toHaveBeenCalled();
   });
 
   it('should check if user exists', () => {

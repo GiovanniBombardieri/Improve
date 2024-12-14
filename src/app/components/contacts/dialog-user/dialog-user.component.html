@@ -21,10 +21,14 @@
   </div>
   <div class="detail">
     <h3>Number of post:</h3>
-    <p>{{ posts.length }}</p>
+    <p>
+      @if (posts) {
+      {{ posts.length }}
+      } @else { ... }
+    </p>
   </div>
 
-  @if (posts.length > 0) { @for (post of posts; track $index) {
+  @if (posts && posts.length > 0) { @for (post of posts; track $index) {
   <div class="post-container">
     <div class="post-container-title">
       <h2>{{ post.title }}</h2>

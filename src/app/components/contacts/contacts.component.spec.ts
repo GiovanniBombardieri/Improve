@@ -7,6 +7,13 @@ import { ContactsComponent } from './contacts.component';
 import { AuthService } from '../../auth/auth.service';
 import { UserServiceService } from '../../service/user-service.service';
 
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 describe('ContactsComponent', () => {
   let component: ContactsComponent;
   let fixture: ComponentFixture<ContactsComponent>;
@@ -28,6 +35,9 @@ describe('ContactsComponent', () => {
     ]);
     userSpy = jasmine.createSpyObj('UserServiceService', ['detailedUser']);
 
+    // Configura il metodo `getUserList` per restituire un Observable vuoto o con dati di esempio
+    authSpy.getUserList.and.returnValue(of([])); // Restituisce un Observable con una lista vuota
+
     await TestBed.configureTestingModule({
       declarations: [ContactsComponent],
       providers: [
@@ -35,6 +45,14 @@ describe('ContactsComponent', () => {
         { provide: Router, useValue: routerSpy },
         { provide: AuthService, useValue: authSpy },
         { provide: UserServiceService, useValue: userSpy },
+      ],
+      imports: [
+        MatTableModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatSelectModule,
+        BrowserAnimationsModule,
       ],
     }).compileComponents();
 
