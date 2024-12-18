@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 
 import { LoginComponent } from './login.component';
-import { AuthService } from '../../auth/auth.service';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -30,7 +29,6 @@ describe('LoginComponent', () => {
       providers: [
         provideHttpClient(),
         { provide: Router, useValue: routerSpy },
-        AuthService,
       ],
     }).compileComponents();
 

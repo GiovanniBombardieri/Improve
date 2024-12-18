@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { DialogUserComponent } from './dialog-user.component';
@@ -8,6 +13,11 @@ import { UserServiceService } from '../../../service/user-service.service';
 import { Location } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('DialogUserComponent', () => {
   let component: DialogUserComponent;
@@ -30,13 +40,32 @@ describe('DialogUserComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [DialogUserComponent],
-      imports: [MatDialogModule, ReactiveFormsModule],
+      imports: [
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatDividerModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        BrowserAnimationsModule,
+      ],
       providers: [
         { provide: UserServiceService, useValue: mockUserService },
         { provide: AuthService, useValue: mockAuthService },
         { provide: Location, useValue: mockLocation },
       ],
     }).compileComponents();
+
+    const mockPosts = [
+      {
+        body: 'Body for test',
+        id: 100100,
+        title: 'Test Post',
+        user_id: 110110,
+      },
+    ];
+
+    mockAuthService.getUserPosts.and.returnValue(of(mockPosts));
   });
 
   beforeEach(() => {
@@ -60,8 +89,11 @@ describe('DialogUserComponent', () => {
           gender: 'female',
           status: 'active',
         });
+      } else if (key === 'userData') {
+        return JSON.stringify({
+          token: 'fake-token',
+        });
       }
-      return null;
     });
 
     fixture.detectChanges();
@@ -84,7 +116,7 @@ describe('DialogUserComponent', () => {
 
   it('should delete a post and reload the page', () => {
     const postId = 123123;
-    mockAuthService.deletePost.and.returnValue(of({}));
+    // mockAuthService.deletePost.and.returnValue(of({}));
 
     component.onDeletePost(postId);
 
@@ -100,7 +132,7 @@ describe('DialogUserComponent', () => {
     const form = component.addNewCommentForm;
     form.setValue({ commentBody: 'Test comment' });
 
-    mockAuthService.createPostComment.and.returnValue(of({}));
+    // mockAuthService.createPostComment.and.returnValue(of({}));
 
     component.onAddComment(form, postId);
 
@@ -123,9 +155,12 @@ describe('DialogUserComponent', () => {
         user_id: 110110,
       },
     ];
-    mockAuthService.getUserPosts.and.returnValue(of(mockPosts));
+
+    // mockAuthService.getUserPosts.and.returnValue(of(mockPosts));
+    // spyOn(mockAuthService, 'getUserPosts').and.returnValue(of(mockPosts));
 
     component.onUserDetails();
+    // tick();
 
     expect(mockAuthService.getUserPosts).toHaveBeenCalledWith('fakeToken', 1);
     expect(component.posts).toEqual(mockPosts);
@@ -134,7 +169,7 @@ describe('DialogUserComponent', () => {
   it('should fetch comments for a post', () => {
     const postId = 1;
     const mockComments = [{ id: 1, body: 'Test Comment' }];
-    mockAuthService.getPostComment.and.returnValue(of(mockComments));
+    // mockAuthService.getPostComment.and.returnValue(of(mockComments));
 
     component.seeComments(postId);
 
@@ -147,7 +182,7 @@ describe('DialogUserComponent', () => {
 
   it('should delete a comment and reload the page', () => {
     const commentId = 123;
-    mockAuthService.deleteComment.and.returnValue(of({}));
+    // mockAuthService.deleteComment.and.returnValue(of({}));
 
     component.onDeleteComment(commentId);
 

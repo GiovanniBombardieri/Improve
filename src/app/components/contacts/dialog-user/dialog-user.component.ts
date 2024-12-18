@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { User } from '../../../../models/user';
 import { UserServiceService } from '../../../service/user-service.service';
 import { AuthService } from '../../../auth/auth.service';
@@ -32,7 +32,6 @@ export class DialogUserComponent implements OnInit {
     this.user = this.userService.detailedUser;
     this.onUserDetails();
     this.checkUser();
-
     if (localStorage.getItem('currentUser')) {
       let currentUser = JSON.parse(localStorage.getItem('currentUser')!);
       if (!currentUser) {
@@ -42,7 +41,6 @@ export class DialogUserComponent implements OnInit {
       this.currentUserId = currentUser.id;
       this.currentUserName = currentUser.name;
     }
-
     this.addNewCommentForm = new FormGroup({
       commentBody: new FormControl(null, Validators.required),
     });
@@ -71,12 +69,14 @@ export class DialogUserComponent implements OnInit {
     }
     const storageToken = storageUser.token;
 
+    console.log(storageToken);
+
     if (storageToken) {
+      console.log(this.authService);
+
       this.authService
         .getUserPosts(storageToken, this.user.id)
         .subscribe((data) => {
-          console.log(data);
-
           this.posts = data;
           this.posts.forEach((element: any) => {
             this.seeComments(element.id);

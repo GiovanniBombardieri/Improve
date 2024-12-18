@@ -59,6 +59,10 @@ export class ContactsComponent {
 
   seeUsers() {
     const storageUser = JSON.parse(localStorage.getItem('userData')!);
+    if (!storageUser) {
+      console.error('User data not found in localStorage');
+      return;
+    }
     const storageToken = storageUser.token;
 
     if (storageToken) {
