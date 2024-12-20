@@ -69,11 +69,9 @@ export class DialogUserComponent implements OnInit {
     }
     const storageToken = storageUser.token;
 
-    console.log(storageToken);
+    console.log(this.user.id);
 
     if (storageToken) {
-      console.log(this.authService);
-
       this.authService
         .getUserPosts(storageToken, this.user.id)
         .subscribe((data) => {
