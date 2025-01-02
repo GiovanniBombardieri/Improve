@@ -104,4 +104,22 @@ describe('NewPostDialogComponent', () => {
     );
     expect(reloadSpy).toHaveBeenCalled();
   });
+
+  it('should not call createNewPost if token is not present in localStorage', () => {
+    const form = component.addNewPost;
+    form.setValue({ title: 'New Post', body: 'Post Body' });
+
+    spyOn(localStorage, 'getItem').and.callFake((key: string) => {
+      if (key === 'currentUser') {
+        return JSON.stringify({ id: 1 });
+      } else if (key === 'userData') {
+        return JSON.stringify({}); // Nessun token
+      }
+      return null;
+    });
+
+    component.onAddPost(form);
+
+    expect(authServiceSpy.createNewPost).not.toHaveBeenCalled();
+  });
 });

@@ -12,6 +12,10 @@ export class AppComponent {
 
   logout() {
     localStorage.clear();
+    this.reloadPage();
+  }
+
+  reloadPage() {
     window.location.reload();
   }
 }

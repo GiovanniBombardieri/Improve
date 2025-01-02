@@ -30,4 +30,21 @@ describe('AppComponent', () => {
     const app = fixture.componentInstance;
     expect(app.title).toEqual('improve');
   });
+
+  it('should clear localStorage and call reloadPage on logout', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+
+    const clearSpy = spyOn(localStorage, 'clear').and.callThrough();
+
+    const reloadPageSpy = spyOn(app, 'reloadPage').and.callFake(() => {
+      console.log('Mock reloadPage called');
+    });
+
+    app.logout();
+
+    // Verifichiamo che le funzioni siano state chiamate
+    expect(clearSpy).toHaveBeenCalled();
+    expect(reloadPageSpy).toHaveBeenCalled();
+  });
 });
