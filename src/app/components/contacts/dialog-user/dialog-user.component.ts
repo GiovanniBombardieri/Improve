@@ -41,16 +41,17 @@ export class DialogUserComponent implements OnInit {
   checkUser(): void {
     if (localStorage.getItem('currentUser')) {
       this.userExist = true;
-      console.log(this.userExist);
 
-      let currentUser = JSON.parse(localStorage.getItem('currentUser')!);
+      const currentUser = JSON.parse(
+        localStorage.getItem('currentUser') || '{}'
+      );
       if (!currentUser) {
         console.error('Current user not found in localStorage');
         return;
       }
 
-      this.currentUserId = currentUser.id;
-      this.currentUserName = currentUser.name;
+      this.currentUserId = currentUser?.id || null;
+      this.currentUserName = currentUser?.name || null;
     }
   }
 

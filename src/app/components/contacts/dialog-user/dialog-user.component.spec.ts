@@ -1,24 +1,26 @@
 import { ComponentFixture, TestBed, tick } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
+import { EMPTY } from 'rxjs';
 
 import { DialogUserComponent } from './dialog-user.component';
 import { UserServiceService } from '../../../service/user-service.service';
 import { AuthService } from '../../../auth/auth.service';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 describe('DialogUserComponent', () => {
   let component: DialogUserComponent;
   let fixture: ComponentFixture<DialogUserComponent>;
   let mockUserService: jasmine.SpyObj<UserServiceService>;
-  let mockAuthService: jasmine.SpyObj<AuthService>;
+  let mockAuthService: Partial<AuthService>;
 
   beforeEach(async () => {
     mockUserService = jasmine.createSpyObj(
@@ -29,13 +31,21 @@ describe('DialogUserComponent', () => {
       }
     );
 
-    mockAuthService = jasmine.createSpyObj('AuthService', [
-      'deletePost',
-      'getUserPosts',
-      'getPostComment',
-      'createPostComment',
-      'deleteComment',
-    ]);
+    const mockPosts = [{ id: 1 }, { id: 2 }]; // Dati simulati
+
+    mockAuthService = {
+      deletePost: jasmine.createSpy('deletePost').and.returnValue(EMPTY),
+      getUserPosts: jasmine
+        .createSpy('getUserPosts')
+        .and.returnValue(of(mockPosts)),
+      getPostComment: jasmine
+        .createSpy('getPostComment')
+        .and.returnValue(EMPTY),
+      createPostComment: jasmine
+        .createSpy('createPostComment')
+        .and.returnValue(EMPTY),
+      deleteComment: jasmine.createSpy('deleteComment').and.returnValue(EMPTY),
+    };
 
     await TestBed.configureTestingModule({
       declarations: [DialogUserComponent],
@@ -47,6 +57,7 @@ describe('DialogUserComponent', () => {
         MatInputModule,
         BrowserAnimationsModule,
         MatDialogModule,
+        MatButtonModule,
       ],
       providers: [
         provideHttpClient(),
@@ -78,25 +89,22 @@ describe('DialogUserComponent', () => {
   it('should initialize user and form on ngOnInit', () => {
     spyOn(component, 'onUserDetails');
     spyOn(component, 'checkUser');
-    // localStorage.setItem(
-    //   'currentUser',
-    //   JSON.stringify({ id: 1, name: 'Current User' })
-    // );
+    localStorage.setItem(
+      'currentUser',
+      JSON.stringify({ id: 1000100, name: 'Current User' })
+    );
 
     component.ngOnInit();
-    tick();
 
     expect(component.user).toEqual(mockUserService.detailedUser);
     expect(component.onUserDetails).toHaveBeenCalled();
     expect(component.checkUser).toHaveBeenCalled();
     expect(component.currentUserId).toBe(1000100);
-    // expect(component.currentUserName).toBe('Current User');
     expect(component.addNewCommentForm).toBeDefined();
   });
 
   it('should call deletePost on authService with the correct parameters', () => {
     const postId = 123;
-    mockAuthService.deletePost.and.returnValue(of({}));
     localStorage.setItem('userData', JSON.stringify({ token: 'test-token' }));
 
     component.onDeletePost(postId);
@@ -109,7 +117,6 @@ describe('DialogUserComponent', () => {
 
   it('should call getUserPosts and populate posts in onUserDetails', () => {
     const mockPosts = [{ id: 1 }, { id: 2 }];
-    mockAuthService.getUserPosts.and.returnValue(of(mockPosts));
     localStorage.setItem('userData', JSON.stringify({ token: 'test-token' }));
 
     component.onUserDetails();
@@ -131,7 +138,6 @@ describe('DialogUserComponent', () => {
       JSON.stringify({ email: 'test@test.com', name: 'Tester' })
     );
     localStorage.setItem('userData', JSON.stringify({ token: 'test-token' }));
-    mockAuthService.createPostComment.and.returnValue(of({}));
 
     component.onAddComment(mockCommentForm, postId);
 
@@ -150,7 +156,6 @@ describe('DialogUserComponent', () => {
   it('should call deleteComment on authService in onDeleteComment', () => {
     const commentId = 1;
     localStorage.setItem('userData', JSON.stringify({ token: 'test-token' }));
-    mockAuthService.deleteComment.and.returnValue(of({}));
 
     component.onDeleteComment(commentId);
 
