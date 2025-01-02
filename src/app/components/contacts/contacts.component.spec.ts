@@ -1,102 +1,135 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { EMPTY, of } from 'rxjs';
+
 import { Router } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
-import { of } from 'rxjs'; // Importa `of` per mockare metodi che restituiscono Observable
 
-import { ContactsComponent } from './contacts.component';
+import { HomepageComponent } from '../homepage/homepage.component';
+import { NewPostDialogComponent } from '../homepage/new-post-dialog/new-post-dialog.component';
+
 import { AuthService } from '../../auth/auth.service';
-import { UserServiceService } from '../../service/user-service.service';
 
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatTableModule } from '@angular/material/table';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
+import { MatIcon } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-describe('ContactsComponent', () => {
-  let component: ContactsComponent;
-  let fixture: ComponentFixture<ContactsComponent>;
+import { Post } from '../../../models/post';
+import { Comment } from '../../../models/comment';
+
+describe('HomepageComponent', () => {
+  let component: HomepageComponent;
+  let fixture: ComponentFixture<HomepageComponent>;
   let routerSpy: jasmine.SpyObj<Router>;
-  let authSpy: jasmine.SpyObj<AuthService>;
-  let userSpy: jasmine.SpyObj<UserServiceService>;
+  let mockAuthService: Partial<AuthService>;
+  let dialogSpy: jasmine.SpyObj<MatDialog>;
+
+  // Dati di esempio
+  const mockPost: Post[] = [
+    {
+      id: 1,
+      user_id: 1,
+      title: 'Test Post',
+      body: 'Test Body',
+    },
+  ];
+  const mockComments: Comment[] = [
+    {
+      id: 1,
+      post_id: 1,
+      name: 'Test Comment',
+      email: 'test@test.com',
+      body: 'Test Comment Body',
+    },
+  ];
+  const mockUserData = { token: 'mock-token' };
 
   beforeEach(async () => {
-    // Mock del localStorage
-    spyOn(localStorage, 'getItem').and.returnValue(
-      JSON.stringify({ token: 'mock-token' })
-    );
-    spyOn(localStorage, 'removeItem');
-
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
-    authSpy = jasmine.createSpyObj('AuthService', [
-      'getUserList',
-      'deleteUser',
-    ]);
-    userSpy = jasmine.createSpyObj('UserServiceService', ['detailedUser']);
 
-    // Configura il metodo `getUserList` per restituire un Observable vuoto o con dati di esempio
-    authSpy.getUserList.and.returnValue(of([])); // Restituisce un Observable con una lista vuota
+    mockAuthService = {
+      getPostList: jasmine.createSpy('getPostList').and.returnValue(EMPTY),
+      getPostComment: jasmine
+        .createSpy('getPostComment')
+        .and.returnValue(EMPTY),
+    };
+
+    dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
+
+    spyOn(localStorage, 'getItem').and.returnValue(
+      JSON.stringify(mockUserData)
+    );
 
     await TestBed.configureTestingModule({
-      declarations: [ContactsComponent],
-      providers: [
-        provideHttpClient(),
-        { provide: Router, useValue: routerSpy },
-        { provide: AuthService, useValue: authSpy },
-        { provide: UserServiceService, useValue: userSpy },
-      ],
+      declarations: [HomepageComponent, NewPostDialogComponent],
       imports: [
-        MatTableModule,
-        MatInputModule,
         MatFormFieldModule,
-        MatIconModule,
-        MatSelectModule,
+        MatInputModule,
+        MatIcon,
         BrowserAnimationsModule,
+      ],
+      providers: [
+        { provide: Router, useValue: routerSpy },
+        { provide: AuthService, useValue: mockAuthService },
+        { provide: MatDialog, useValue: dialogSpy },
+        provideHttpClient(),
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ContactsComponent);
+    fixture = TestBed.createComponent(HomepageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should fetch user list', () => {
-    const mockUsers = [
-      {
-        email: 'example@email.com',
-        gender: 'female',
-        id: 1,
-        name: 'name',
-        status: 'active',
-      },
-    ];
-
-    authSpy.getUserList.and.returnValue(of(mockUsers));
-
-    component.ngOnInit();
-    fixture.detectChanges();
-
-    expect(authSpy.getUserList).toHaveBeenCalledWith(1, 12, 'mock-token');
-    expect(component.users).toEqual(mockUsers);
+  it('should fetch posts when logged in', () => {
+    component.seePosts();
+    expect(component.posts).toEqual(mockPost);
+    expect(component.commentsArray[0]).toEqual(mockComments[0]);
   });
 
-  it('should delete a user when onDeleteUser is called', () => {
-    const userId = 100100;
-    // const mockResponse = { message: 'User deleted successfully' };
-    authSpy.deleteUser.and.returnValue(
-      of({ message: 'User deleted successfully' })
-    );
-    spyOn(component, 'reloadPage').and.callFake(() => {});
+  it('should apply filter correctly', () => {
+    // Aggiungi un post per il filtro
+    component.posts = mockPost;
+    const filterValue = 'Test';
 
-    component.onDeleteUser(userId);
+    // Verifica che il filtro funzioni correttamente
+    expect(component.filteredList).toEqual(mockPost);
+  });
 
-    expect(authSpy.deleteUser).toHaveBeenCalledWith('mock-token', userId);
-    expect(localStorage.removeItem).toHaveBeenCalledWith('currentUser');
-    expect(component.reloadPage).toHaveBeenCalled();
+  it('should open the dialog when openDialog is called', () => {
+    // Simula l'apertura del dialogo
+    component.openDialog();
+
+    // Verifica che il dialogo sia stato aperto
+    expect(dialogSpy.open).toHaveBeenCalledWith(NewPostDialogComponent);
+  });
+
+  it('should go to the first page when firstPage is called', () => {
+    component.currentPage = 5;
+    component.firstPage();
+    expect(component.currentPage).toBe(1);
+  });
+
+  it('should go to the previous page when previousPage is called', () => {
+    component.currentPage = 2;
+    component.previousPage();
+    expect(component.currentPage).toBe(1);
+  });
+
+  it('should go to the next page when nextPage is called', () => {
+    component.currentPage = 1;
+    component.nextPage();
+    expect(component.currentPage).toBe(2);
+  });
+
+  it('should go to the last page when lastPage is called', () => {
+    component.currentPage = 1;
+    component.lastPage();
+    expect(component.currentPage).toBe(20);
   });
 });

@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { Post } from '../../../models/post';
 import { MatDialog } from '@angular/material/dialog';
-import { NewPostDialogComponent } from './new-post-dialog/new-user-dialog.component';
+import { NewPostDialogComponent } from './new-post-dialog/new-post-dialog.component';
 import { Comment } from '../../../models/comment';
 
 @Component({

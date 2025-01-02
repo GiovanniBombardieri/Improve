@@ -29,7 +29,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { ContactsComponent } from './components/contacts/contacts.component';
 import { DialogContentComponent } from './components/contacts/dialog-content/dialog-content.component';
 import { DialogUserComponent } from './components/contacts/dialog-user/dialog-user.component';
-import { NewPostDialogComponent } from './components/homepage/new-post-dialog/new-user-dialog.component';
+import { NewPostDialogComponent } from './components/homepage/new-post-dialog/new-post-dialog.component';
 
 @NgModule({
   declarations: [

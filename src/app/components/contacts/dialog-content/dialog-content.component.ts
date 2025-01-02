@@ -34,7 +34,7 @@ export class DialogContentComponent implements OnInit {
       status: 'active',
     };
 
-    const storageUser = JSON.parse(localStorage.getItem('userData')!);
+    const storageUser = JSON.parse(localStorage.getItem('userData') || '{}');
     const storageToken = storageUser.token;
 
     if (storageToken) {
