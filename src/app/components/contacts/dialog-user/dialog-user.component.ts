@@ -30,20 +30,49 @@ export class DialogUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.userService.detailedUser;
-    this.onUserDetails();
     this.checkUser();
-    if (localStorage.getItem('currentUser')) {
-      let currentUser = JSON.parse(localStorage.getItem('currentUser')!);
-      if (!currentUser) {
-        console.error('User data not found in localStorage');
-        return;
-      }
-      this.currentUserId = currentUser.id;
-      this.currentUserName = currentUser.name;
-    }
+    this.onUserDetails();
+
     this.addNewCommentForm = new FormGroup({
       commentBody: new FormControl(null, Validators.required),
     });
+  }
+
+  checkUser(): void {
+    if (localStorage.getItem('currentUser')) {
+      this.userExist = true;
+      console.log(this.userExist);
+
+      let currentUser = JSON.parse(localStorage.getItem('currentUser')!);
+      if (!currentUser) {
+        console.error('Current user not found in localStorage');
+        return;
+      }
+
+      this.currentUserId = currentUser.id;
+      this.currentUserName = currentUser.name;
+    }
+  }
+
+  onUserDetails() {
+    const storageUser = JSON.parse(localStorage.getItem('userData')!);
+    if (!storageUser) {
+      console.error('User data not found in localStorage');
+      return;
+    }
+    const storageToken = storageUser.token;
+
+    if (storageToken) {
+      this.authService
+        .getUserPosts(storageToken, this.user.id)
+        .subscribe((data) => {
+          this.posts = data;
+
+          this.posts.forEach((element: any) => {
+            this.seeComments(element.id);
+          });
+        });
+    }
   }
 
   onDeletePost(postId: number) {
@@ -58,28 +87,6 @@ export class DialogUserComponent implements OnInit {
       this.authService.deletePost(storageToken, postId).subscribe(() => {
         location.reload();
       });
-    }
-  }
-
-  onUserDetails() {
-    const storageUser = JSON.parse(localStorage.getItem('userData')!);
-    if (!storageUser) {
-      console.error('User data not found in localStorage');
-      return;
-    }
-    const storageToken = storageUser.token;
-
-    console.log(this.user.id);
-
-    if (storageToken) {
-      this.authService
-        .getUserPosts(storageToken, this.user.id)
-        .subscribe((data) => {
-          this.posts = data;
-          this.posts.forEach((element: any) => {
-            this.seeComments(element.id);
-          });
-        });
     }
   }
 
@@ -142,12 +149,6 @@ export class DialogUserComponent implements OnInit {
           console.log(data);
           location.reload();
         });
-    }
-  }
-
-  checkUser(): void {
-    if (localStorage.getItem('currentUser')) {
-      this.userExist = true;
     }
   }
 }
