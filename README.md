@@ -126,7 +126,7 @@ To get started with this Angular 18 project, follow these steps:
      npm install
    ```
 
-4. Avvia il server di sviluppo
+4. Start the development server:
 
    ```bash
      ng serve
